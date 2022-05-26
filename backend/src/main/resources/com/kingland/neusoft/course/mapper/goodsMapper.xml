@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kingland.neusoft.course.mapper.GoodsMapper">
+    <resultMap id="BaseResultMap" type="com.kingland.neusoft.course.mapper.dao.GoodsModel">
+        <id column="id" jdbcType="BIGINT" property="id" />
+        <result column="goodsname" jdbcType="VARCHAR" property="goodsname" />
+        <result column="total" jdbcType="BIGINT" property="total" />
+    </resultMap>
+    <sql id="Base_Column_List">
+        id,goodsname,total
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from goods
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <select id="query" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from goods
+    </select>
+    <select id="selectGoodsByGoodsname" resultMap="BaseResultMap">
+        select *
+        from goods
+        where goodsname = #{goodsname,jdbcType=VARCHAR}
+    </select>
+    <select id="count" resultType="java.lang.Integer">
+        select count(*)
+        from goods;
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete
+        from goods
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.kingland.neusoft.course.mapper.dao.GoodsModel" useGeneratedKeys="true">
+        insert into goods (goodsname,total)
+        values (#{goodsname,jdbcType=VARCHAR}, #{total,jdbcType=BIGINT})
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.kingland.neusoft.course.mapper.dao.GoodsModel" useGeneratedKeys="true">
+        insert into goods
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="goodsname != null">
+                goodsname,
+            </if>
+            <if test="total != null">
+                "total",
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="goodsname != null">
+                #{goodsname,jdbcType=VARCHAR},
+            </if>
+            <if test="total != null">
+                #{total,jdbcType=BIGINT},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.kingland.neusoft.course.mapper.dao.GoodsModel">
+        update goods
+        <set>
+            <if test="goodsname != null">
+                goodsname = #{goodsname,jdbcType=VARCHAR},
+            </if>
+            <if test="total != null">
+                "total" = #{total,jdbcType=BIGINT},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.kingland.neusoft.course.mapper.dao.GoodsModel">
+        update goods
+        set goodsname     = #{goodsname,jdbcType=VARCHAR},
+            total         = #{total,jdbcType=BIGINT}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+</mapper>
